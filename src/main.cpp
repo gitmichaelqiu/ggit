@@ -7,10 +7,25 @@ namespace fs = std::filesystem;
 
 void init_sqlite_index(const fs::path& db_path) {
     sqlite3* db;
-    char** errmsg;
+    char* errmsg = nullptr;
 
-    sqlite3_open(db_path.c_str(), &db);
-    sqlite3_exec(db, "CREATE TABLE IF NOT EXISTS staging_area(path TEXT PRIMARY KEY, hash TEXT NOT NULL, size INTEGER, modified_time INTEGER);", nullptr, nullptr, errmsg);
+    int rc = sqlite3_open(db_path.c_str(), &db);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "Fatal Error: Cannot open database.";
+        sqlite3_close(db);
+        return;
+    }
+
+    const char* sql = "CREATE TABLE IF NOT EXISTS staging_area(path TEXT PRIMARY KEY, hash TEXT NOT NULL, size INTEGER, modified_time INTEGER);";
+
+    rc = sqlite3_exec(db, sql, nullptr, nullptr, &errmsg);
+
+    if (rc != SQLITE_OK) {
+        std::cerr << "SQL Error: " << errmsg << "\n";
+        sqlite3_free(errmsg);
+    }
+
     sqlite3_close(db);
 }
 
