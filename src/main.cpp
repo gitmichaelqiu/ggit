@@ -1,18 +1,23 @@
 #include <iostream>
-#include <openssl/opensslv.h>
-#include <zlib.h>
 #include <filesystem>
 
 namespace fs = std::filesystem;
 
-int main(int argc, char* argv[]) {
-    std::cout << "--- ggit Build Verification ---" << std::endl;
-    
-    std::cout << "Command invoked: " << argv[0] << std::endl;
-    std::cout << "Total arguments: " << argc << std::endl;
-    std::cout << "Current path: " << fs::current_path() << std::endl;
-    std::cout << "OpenSSL Version: " << OPENSSL_VERSION_TEXT << std::endl;
-    std::cout << "zlib Version: " << ZLIB_VERSION << std::endl;
+void ggit_init() {
+    fs::path repo = fs::current_path() / ".ggit";
+    if (fs::exists(repo)) {
+        printf("Repo is already initialized.");
+        return;
+    }
 
-    return 0;
+    fs::create_directories(repo);
+    fs::create_directories(repo / "objects");
+    fs::create_directories(repo / "refs/heads");
+    fs::create_directories(repo / "refs/tags");
+
+    printf("Repo is initialized.");
+}
+
+int main() {
+
 }
