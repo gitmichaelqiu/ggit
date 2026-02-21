@@ -1,0 +1,36 @@
+# ---------------------------------------------------
+# 1. CMake Build Artifacts
+# ---------------------------------------------------
+# Ignores your entire out-of-source build directory
+/build/
+# Ignores CMake cache files just in case you accidentally run cmake in the root
+CMakeCache.txt
+CMakeFiles/
+Makefile
+*.cmake
+
+# ---------------------------------------------------
+# 2. macOS Specific
+# ---------------------------------------------------
+# Ignores custom folder attributes and icon data created automatically by macOS Finder
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ---------------------------------------------------
+# 3. C++ Compiled Binaries & Object Files
+# ---------------------------------------------------
+# Catch-all for compiled files in case they leak outside the build folder
+*.o
+*.out
+*.app
+*.dylib
+*.a
+
+# ---------------------------------------------------
+# 4. IDEs and Code Editors
+# ---------------------------------------------------
+# Ignores personal workspace settings for VS Code, CLion, or Vim
+.vscode/
+.idea/
+*.swp
