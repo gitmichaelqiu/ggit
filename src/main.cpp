@@ -12,7 +12,7 @@ void init_sqlite_index(const fs::path& db_path) {
     int rc = sqlite3_open(db_path.c_str(), &db);
 
     if (rc != SQLITE_OK) {
-        std::cerr << "Fatal Error: Cannot open database.";
+        std::cerr << "Error: Cannot open database.";
         sqlite3_close(db);
         return;
     }
@@ -36,18 +36,26 @@ void ggit_init() {
         return;
     }
 
-    fs::create_directories(repo);
-    fs::create_directories(repo / "objects");
-    fs::create_directories(repo / "refs/heads");
-    fs::create_directories(repo / "refs/tags");
+    try {
+        fs::create_directories(repo);
+        fs::create_directories(repo / "objects");
+        fs::create_directories(repo / "refs/heads");
+        fs::create_directories(repo / "refs/tags");
 
-    std::ofstream file(repo / "HEAD");
-    file << "ref: refs/heads/main\n";
-    file.close();
+        std::ofstream file(repo / "HEAD");
+        if (file.is_open()) {
+            file << "ref: refs/heads/main\n";
+            file.close();
+        } else {
+            std::cerr << "Error: Could not create HEAD file. Check permissions.\n";
+        }
 
-    init_sqlite_index(repo / "index.db");
+        init_sqlite_index(repo / "index.db");
 
-    std::cout << "Repo is initialized.\n";
+        std::cout << "Initialized empty ggit repository in " << repo << "\n";
+    } catch (const fs::filesystem_error& e) {
+        std::cerr << "Filesystem Error: " << e.what() << "\n";
+    }
 }
 
 int main() {
