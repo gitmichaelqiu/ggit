@@ -1,3 +1,4 @@
+#include "hash_engine.h"
 #include <iostream>
 #include <filesystem>
 #include <fstream>
@@ -60,6 +61,9 @@ void ggit_init() {
 
 int main() {
     ggit_init();
+
+    std::string my_hash = generate_sha256("test.txt");
+    std::cout << "The hash is: " << my_hash << "\n";
 
     return 0;
 }

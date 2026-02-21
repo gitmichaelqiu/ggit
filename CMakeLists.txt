@@ -10,7 +10,7 @@ find_package(SQLite3 REQUIRED)
 
 find_library(ZSTD_LIBRARY zstd REQUIRED)
 
-add_executable(ggit src/main.cpp)
+add_executable(ggit src/main.cpp src/hash_engine.cpp)
 
 target_link_libraries(ggit PRIVATE 
     OpenSSL::Crypto 
