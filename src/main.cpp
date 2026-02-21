@@ -1,4 +1,5 @@
 #include "hash_engine.h"
+#include "compress_engine.h"
 #include <iostream>
 #include <filesystem>
 #include <fstream>
@@ -64,6 +65,9 @@ int main() {
 
     std::string my_hash = generate_sha256("test.txt");
     std::cout << "The hash is: " << my_hash << "\n";
+
+    std::vector<char> compressed = compress_file("test.txt");
+    std::cout << "Compressed size: " << compressed.size() << " bytes\n";
 
     return 0;
 }
