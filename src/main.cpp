@@ -19,7 +19,7 @@ void ggit_init() {
 }
 
 int main() {
-    ggit_init()
+    ggit_init();
 
     return 0;
 }
