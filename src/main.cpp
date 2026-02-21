@@ -1,5 +1,6 @@
 #include <iostream>
 #include <filesystem>
+#include <fstream>
 
 namespace fs = std::filesystem;
 
@@ -14,6 +15,10 @@ void ggit_init() {
     fs::create_directories(repo / "objects");
     fs::create_directories(repo / "refs/heads");
     fs::create_directories(repo / "refs/tags");
+
+    std::ofstream file(repo / "HEAD");
+    file << "ref: refs/heads/main\n";
+    file.close();
 
     std::cout << "Repo is initialized.\n";
 }
